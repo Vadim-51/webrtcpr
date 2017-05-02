@@ -1,0 +1,116 @@
+<!doctype html>
+
+<!--
+    WebSocket chat client
+
+    WebSocket and WebRTC based multi-user chat sample with two-way video
+    calling, including use of TURN if applicable or necessary.
+
+    This file provides the structure of the chat client's web page, including
+    logging in, text chatting, and making private video calls to other users.
+
+    To read about how this sample works:  http://bit.ly/webrtc-from-chat
+
+    Any copyright is dedicated to the Public Domain.
+    http:   creativecommons.org/publicdomain/zero/1.0/
+-->
+
+<html>
+<head>
+  <title>WebSocket Chat Demo with WebRTC Calling</title>
+  <meta charset="utf-8">
+  <style>
+  #videoChats{
+   background-color: yellow;
+  
+  }
+  #remote_video{
+  
+  }
+  #videochats{
+   
+  }
+  
+  </style>
+  <link href="chat.css" rel="stylesheet">
+  <link href="../shared.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script type="text/javascript" src="chatclient.js"></script>
+  <script src="adapter.js"></script>
+</head>
+<body>
+  <p>This is a simple chat system implemented using WebSockets. It works by
+  sending packets of JSON back and forth with the server.
+  <a href="https://github.com/mdn/samples-server/tree/master/s/webrtc-from-chat">
+  Check out the source</a> on Github.</p>
+  <p class="mdn-disclaimer">This text and audio/video chat example is offered as-is
+    for demonstration purposes only, and should not be used for any other
+    purpose.</p>
+	<h2>You have videocall from:</h2>
+	<div id="chatinfo"></div>
+	<p>Additional person is <span id="adP"></span></p><button onclick="addPer();" id="test">Test</button>
+  <p>Click a username in the user list to ask them to enter a one-on-one video
+    chat with you.</p>
+  <p>Enter a username: <input id="name" type="text" maxlength="12" required
+      autocomplete="username" inputmode="verbatim" placeholder="Username">
+  <input id="log" type="button" name="login" value="Log in"></p>
+
+  <div id="container" class="flexChild columnParent">
+    <div class="flexChild rowParent">
+      <div class="flexChild rowParent">
+        <div class="flexChild" id="userlist-container">
+          <ul id="userlistbox"></ul>
+        </div>
+        <div class="flexChild" id="chat-container">
+          <iframe id="chatbox"></iframe>
+        </div>
+      </div>
+
+      <div class="flexChild" id="camera-container">
+        <div class="camera-box">
+		  <p><span id="me"></span></p>
+          <video id="received_video" autoplay></video>
+          <video id="local_video" autoplay muted></video>
+		  <div id="remote_video">
+		  
+		  </div>
+          <button id="hangup-button" onclick="hangUpCall();" disabled>
+            Hang Up
+          </button>
+		  <p id="info"></p>
+		  
+        </div>
+      </div>
+    </div>
+
+    <div class="flexChild rowParent" id="control-row">
+      <div class="flexChild" id="empty-container"></div>
+      <div class="flexChild" id="chat-controls-container">
+        Chat: <input id="text" type="text" name="text" size="80" maxlength="256"
+          placeholder="Chat with us!" autocomplete="off" onkeyup="handleKey(event)"
+          disabled>
+        <input type="button" id="send" name="send" value="Send"
+          onclick="handleSendButton()" disabled>
+		  <div id="videochats">
+	      </div>
+      </div>
+    </div><br/><br/>
+	<hr>
+	
+	<div id="videoChats">
+	<p>We have the following webchats:</p>
+	<p id="chats"></p>
+	</div>
+  </div>
+  <script>
+   $("#log").on("tap",function(){
+  connect();
+  });
+  document.getElementById("log").addEventListener("click", connect);
+  function alerting(){alert("ontouchscreen")};
+  document.getElementById("log").addEventListener("onmousedown", connect);
+	
+
+  </script>
+</body>
+</html>
